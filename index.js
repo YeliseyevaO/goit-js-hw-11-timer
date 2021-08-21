@@ -1,8 +1,8 @@
 const refs={
-    days: document.querySelector('span[data-value="days"]'),
-    hours: document.querySelector('span[data-value="hours"]'),
-    mins: document.querySelector('span[ data-value="mins"]'),
-    secs:document.querySelector('span[ data-value="secs"]'),
+    days: document.querySelector('[data-value="days"]'),
+    hours: document.querySelector('[data-value="hours"]'),
+    mins: document.querySelector('[ data-value="mins"]'),
+    secs:document.querySelector('[ data-value="secs"]'),
 }
 
    const CountdownTimer = {
@@ -11,8 +11,9 @@ const refs={
         setInterval(() => {
             const currentTime = Date.now();
             const deltaTime = targetTime - currentTime;
-            const timeComponents = getTimeComponents(deltaTime);
-            const { days, hours, mins, secs } = timeComponents;
+            const { days, hours, mins, secs } = getTimeComponents(deltaTime);
+            console.log( { days, hours, mins, secs } );
+          
              upDateTime({ days, hours, mins, secs });
         }, 1000);
        
@@ -41,7 +42,7 @@ function getTimeComponents(time) {
 
     return { days, hours, mins, secs };
 };
-function upDateTime({ days, hours, mins, secs }) {
+function upDateTime(data) {
     refs.days.textContent = '${ days }';
     refs.hours.textContent = '${hours}';
     refs.mins.textContent = "${mins}";
