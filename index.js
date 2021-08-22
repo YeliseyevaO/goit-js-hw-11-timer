@@ -5,25 +5,34 @@ const refs={
     secs:document.querySelector('[ data-value="secs"]'),
 }
 
-   const CountdownTimer = {
-    start() {
-        const targetTime = (new Date('sep 17, 2021')).getTime();
-        setInterval(() => {
+const CountdownTimer = {
+    timerId: null,
+    start(date) {
+        const targetTime = (date).getTime();
+      this.timerId = setInterval(() => {
             const currentTime = Date.now();
             const deltaTime = targetTime - currentTime;
-            const { days, hours, mins, secs } = getTimeComponents(deltaTime);
-            console.log( { days, hours, mins, secs } );
-          
-             upDateTime({ days, hours, mins, secs });
+            const timeComponents = getTimeComponents(deltaTime);
+        
+             upDateTime(timeComponents);
         }, 1000);
        
     },
-    stop() {
+    stop(date) {
+        const targetTime = (date).getTime();
+        const currentTime = Date.now();
+        if (targetTime === currentTime) {
+            clearTimeout(this.timerId);
+             const timeComponents = getTimeComponents(deltaTime);
         
+             upDateTime(timeComponents);
+            return;
+        }
     },
 };
 
-CountdownTimer.start();
+CountdownTimer.start(new Date('aug 23, 2021'));
+CountdownTimer.stop(new Date('aug 23, 2021'));
 
 /*new CountdownTimer({
   selector: '#timer-1',
@@ -43,9 +52,9 @@ function getTimeComponents(time) {
     return { days, hours, mins, secs };
 };
 function upDateTime(data) {
-    refs.days.textContent = '${ days }';
-    refs.hours.textContent = '${hours}';
-    refs.mins.textContent = "${mins}";
-    refs.secs.textContent = '${secs}';
+    refs.days.textContent = data.days;
+    refs.hours.textContent = data.hours;
+    refs.mins.textContent = data.mins;
+    refs.secs.textContent = data.secs;
 
 };
