@@ -5,10 +5,13 @@ const refs={
     secs:document.querySelector('[ data-value="secs"]'),
 }
 
-const CountdownTimer = {
-    timerId: null,
-    start(date) {
-        const targetTime = (date).getTime();
+class CountdownTimer {
+    constructor(){
+       this.timerId = null;
+       this.targetTime = targetTime;
+};
+    start() {
+        const targetTime = (this.targetTime).getTime();
       this.timerId = setInterval(() => {
             const currentTime = Date.now();
             const deltaTime = targetTime - currentTime;
@@ -17,22 +20,27 @@ const CountdownTimer = {
              upDateTime(timeComponents);
         }, 1000);
        
-    },
-    stop(date) {
-        const targetTime = (date).getTime();
+    }
+    stop() {
+        const targetTime = (this.targetTime).getTime();
         const currentTime = Date.now();
-        if (targetTime === currentTime) {
+        if (targetTime < currentTime) {
             clearTimeout(this.timerId);
-             const timeComponents = getTimeComponents(deltaTime);
-        
-             upDateTime(timeComponents);
+            refs.days.textContent = '00';
+            refs.hours.textContent = '00';
+            refs.mins.textContent = '00';
+            refs.secs.textContent = '00';   
             return;
         }
-    },
+    }
 };
 
-CountdownTimer.start(new Date('aug 23, 2021'));
-CountdownTimer.stop(new Date('aug 23, 2021'));
+const countdownTimer = new CountdownTimer(
+    targetTime= new Date('sep 22, 2021'),
+);
+countdownTimer.start();
+countdownTimer.stop();
+
 
 /*new CountdownTimer({
   selector: '#timer-1',
@@ -51,10 +59,10 @@ function getTimeComponents(time) {
 
     return { days, hours, mins, secs };
 };
-function upDateTime(data) {
-    refs.days.textContent = data.days;
-    refs.hours.textContent = data.hours;
-    refs.mins.textContent = data.mins;
-    refs.secs.textContent = data.secs;
 
+  function upDateTime({ days, hours, mins, secs }) {
+refs.days.textContent = days;
+refs.hours.textContent = hours;
+refs.mins.textContent = mins;
+refs.secs.textContent = secs;
 };
